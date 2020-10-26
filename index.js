@@ -6,6 +6,7 @@ const path = require("path");
 
 const app = express();
 const eventRoutes = require("./src/routes/event");
+const authRoutes = require("./src/routes/auth");
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -44,6 +45,8 @@ app.use((req, res, next) => {
   next();
 });
 
+//routes
+app.use("/v1/auth", authRoutes);
 app.use("/v1/event", eventRoutes);
 
 app.use((error, req, res, next) => {
@@ -59,6 +62,6 @@ mongoose
     "mongodb+srv://arntonius:Octaviolla27@cluster0.t8xxs.mongodb.net/root?retryWrites=true&w=majority"
   )
   .then(() => {
-    app.listen(4001, () => console.log("connection success"));
+    app.listen(4000, () => console.log("connection success"));
   })
   .catch((err) => console.log(err));
