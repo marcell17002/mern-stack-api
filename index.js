@@ -8,6 +8,7 @@ const app = express();
 const eventRoutes = require("./src/routes/event");
 const authRoutes = require("./src/routes/auth");
 const profileRoutes = require("./src/routes/profile");
+const chatRoutes = require("./src/routes/chat");
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -50,6 +51,7 @@ app.use((req, res, next) => {
 app.use("/v1/auth", authRoutes);
 app.use("/v1/event", eventRoutes);
 app.use("/v1/profile", profileRoutes);
+app.use("/v1/chat", chatRoutes);
 
 app.use((error, req, res, next) => {
   const status = error.errorStatus || 500;
