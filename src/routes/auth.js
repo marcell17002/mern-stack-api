@@ -4,7 +4,9 @@ const { body } = require("express-validator");
 const router = express.Router();
 
 const authController = require("../controllers/auth");
+const verifyToken = require("../controllers/verifyToken");
 
+//creating user
 router.post(
   "/user",
   [
@@ -14,10 +16,12 @@ router.post(
   ],
   authController.createUser
 );
+router.get("/users", verifyToken, authController.getAllUsers);
+router.get("/user/:userId", verifyToken, authController.getUserById);
+router.put("/user/:userId", verifyToken, authController.updateUser);
+router.delete("/user/:userId", verifyToken, authController.deleteUser);
 
-router.get("/users", authController.getAllUsers);
-router.get("/user/:userId", authController.getUserById);
-router.put("/user/:userId", authController.updateUser);
-router.delete("/user/:userId", authController.deleteUser);
-
+//authentication
+router.post("/login", authController.loginUser);
+router.get("/logout", authController.logoutUser);
 module.exports = router;

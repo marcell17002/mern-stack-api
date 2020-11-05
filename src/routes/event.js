@@ -4,8 +4,8 @@ const { body } = require("express-validator");
 const router = express.Router();
 
 const eventController = require("../controllers/event");
+const verifyToken = require("../controllers/verifyToken");
 
-// [POST] : /v1/event/post
 router.post(
   "/post",
   [
@@ -18,14 +18,8 @@ router.post(
   ],
   eventController.createEventPost
 );
-
-// [GET] : /v1/event/posts
-router.get("/posts", eventController.getAllEventPost);
-
-// [GET BY ID] : /v1/event/post/:postId
+router.get("/posts", verifyToken, eventController.getAllEventPost);
 router.get("/post/:postId", eventController.getEventPostById);
-
-// [PUT] : /v1/event/post/:postId
 router.put(
   "/post/:postId",
   [
@@ -38,8 +32,6 @@ router.put(
   ],
   eventController.updateEventPost
 );
-
-// [DELETE] : /v1/event/post/:postId
 router.delete("/post/:postId", eventController.deleteEventPost);
 
 module.exports = router;

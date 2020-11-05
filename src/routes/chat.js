@@ -4,10 +4,11 @@ const { body } = require("express-validator");
 const router = express.Router();
 
 const chatController = require("../controllers/chat");
+const verifyToken = require("../controllers/verifyToken");
 
-router.post("/post", chatController.postChat);
-router.get("/posts", chatController.getAllDataChat);
-router.get("/post/:chatId", chatController.getDataChatById);
-router.delete("/post/:chatId", chatController.deleteDataChat);
+router.post("/post", verifyToken, chatController.postChat);
+router.get("/posts", verifyToken, chatController.getAllDataChat);
+router.get("/post/:chatId", verifyToken, chatController.getDataChatById);
+router.delete("/post/:chatId", verifyToken, chatController.deleteDataChat);
 
 module.exports = router;

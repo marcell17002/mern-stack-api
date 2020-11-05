@@ -1,10 +1,15 @@
 const { validationResult } = require("express-validator");
-const Authentication = require("../models/auth");
 const path = require("path");
 const fs = require("fs");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const config = require("../config");
+const verifyToken = require("./verifyToken");
+const Authentication = require("../models/auth");
 
 exports.createUser = (req, res, next) => {
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     const err = new Error("Invalid Value");
     err.errorStatus = 400;
@@ -21,17 +26,25 @@ exports.createUser = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const image = req.file.path;
+  const hashedPassword = bcrypt.hashSync(password, 6);
 
   const AddingUser = new Authentication({
     name: name,
     email: email,
     image: image,
-    password: password,
+    password: hashedPassword,
+    image: image,
   });
 
   AddingUser.save()
     .then((result) => {
-      res.status(201).json({ message: "Create User Success", data: result });
+      var token = jwt.sign({ id: result._id }, config.secret, {
+        expiresIn: 86400, // expires in 24 hours
+      });
+      res
+        .status(201)
+        .send({ auth: true, token: token })
+        .json({ message: "Create User Success", data: result });
     })
     .catch((err) => {
       console.log("err: ", err);
@@ -135,6 +148,27 @@ exports.deleteUser = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
+
+exports.loginUser = (req, res, next) => {
+  Authentication.findOne({ email: req.body.email }, function (err, user) {
+    if (err) return res.status(500).send("Error on the server.");
+    if (!user) return res.status(404).send("No user found.");
+
+    var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+    if (!passwordIsValid)
+      return res.status(401).send({ auth: false, token: null });
+
+    var token = jwt.sign({ id: user._id }, config.secret, {
+      expiresIn: 86400, // expires in 24 hours
+    });
+
+    res.status(200).send({ auth: true, token: token });
+  });
+};
+
+exports.logoutUser = (req, res, next) => {
+  res.status(200).send({ auth: false, token: null, message: "Success Logout" });
 };
 
 const removeImage = (filePath) => {
