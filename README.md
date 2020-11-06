@@ -2,21 +2,19 @@
 
 This is a restful api using node.js , express.js, Mongodb and will be implemented on React Native.
 
-## Standar API
+## Standar API Response
 
 {root.api}/{version}/{grouping}/{endpoint}
 eg : localhost:4000/v1/auth/user
 
-Standar Status Response
-
-200 - OK
-201 - CREATED
-400 - BAD REQUEST
-401 - UNAUTHORIZED
-403 - FORBIDDEN
-404 - NOT FOUND
-500 - INTERNAL SEVER ERROR
-502 - BAD GATEWAY
+- 200 - OK
+- 201 - CREATED
+- 400 - BAD REQUEST
+- 401 - UNAUTHORIZED
+- 403 - FORBIDDEN
+- 404 - NOT FOUND
+- 500 - INTERNAL SEVER ERROR
+- 502 - BAD GATEWAY
 
 ## How to Get Access
 
