@@ -17,6 +17,7 @@ exports.createProfile = (req, res, next) => {
   const jabatan = req.body.jabatan;
   const periode = req.body.periode;
   const pemilik = req.body.pemilik;
+  const instansi = req.body.instansi;
 
   const AddingProfile = new ProfilePost({
     pengalaman: pengalaman,
@@ -24,6 +25,7 @@ exports.createProfile = (req, res, next) => {
     jabatan: jabatan,
     periode: periode,
     pemilik: pemilik,
+    instansi: instansi,
   });
 
   AddingProfile.save()

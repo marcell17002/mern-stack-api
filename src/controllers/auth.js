@@ -16,24 +16,27 @@ exports.createUser = (req, res, next) => {
     err.data = errors.array();
     throw err;
   }
-  if (!req.file) {
-    const err = new Error("Image belum ter-upload");
-    err.errorStatus = 422;
-    throw err;
-  }
+  // if (!req.file) {
+  //   const err = new Error("Image belum ter-upload");
+  //   err.errorStatus = 422;
+  //   throw err;
+  // }
 
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
-  const image = req.file.path;
+  const profession = req.body.profession;
+  const number = req.body.number;
+  // const image = req.file.path;
   const hashedPassword = bcrypt.hashSync(password, 6);
 
   const AddingUser = new Authentication({
     name: name,
     email: email,
-    image: image,
     password: hashedPassword,
-    image: image,
+    profession: profession,
+    number: number,
+    // image: image,
   });
 
   AddingUser.save()
@@ -89,16 +92,19 @@ exports.updateUser = (req, res, next) => {
     err.data = errors.array();
     throw err;
   }
-  if (!req.file) {
-    const err = new Error("Image doesnt uploaded");
-    err.errorStatus = 422;
-    throw err;
-  }
+  // if (!req.file) {
+  //   const err = new Error("Image doesn't uploaded");
+  //   err.errorStatus = 422;
+  //   throw err;
+  // }
 
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
-  const image = req.file.path;
+  const hashedPassword = bcrypt.hashSync(password, 6);
+  const image = req.body.image;
+  const profession = req.body.profession;
+  const number = req.body.number;
   const userId = req.params.userId;
 
   Authentication.findById(userId)
@@ -110,8 +116,10 @@ exports.updateUser = (req, res, next) => {
       }
       post.name = name;
       post.email = email;
-      post.password = password;
+      post.password = hashedPassword;
       post.image = image;
+      post.profession = profession;
+      post.number = number;
 
       return post.save();
     })

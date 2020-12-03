@@ -18,6 +18,9 @@ const ProfilePost = new Schema(
     jabatan: {
       type: String,
     },
+    instansi: {
+      type: String,
+    },
     pemilik: {
       type: Object,
     },

@@ -15,6 +15,14 @@ const Authentication = new Schema(
       type: String,
       required: true,
     },
+    profession: {
+      type: String,
+      required: true,
+    },
+    number: {
+      type: String,
+      required: true,
+    },
     image: {
       type: String,
     },
