@@ -67,7 +67,9 @@ mongoose
     "mongodb+srv://arntonius:Octaviolla27@cluster0.t8xxs.mongodb.net/root?retryWrites=true&w=majority"
   )
   .then(() => {
-    app.get("/", (req, res) => res.send("<h2> Hello World! </h2>"));
+    app.get("/", (req, res) =>
+      res.send("<h2> Hello User! Lets surf with us! :) </h2>")
+    );
     app.listen(PORT, () => console.log(`app listening on port ${PORT}`));
   })
   .catch((err) => console.log(err));
