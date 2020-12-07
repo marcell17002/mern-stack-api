@@ -52,7 +52,7 @@ app.use("/v1/auth", authRoutes);
 app.use("/v1/event", eventRoutes);
 app.use("/v1/profile", profileRoutes);
 app.use("/v1/chat", chatRoutes);
-app.get("/", (req, res) =>
+app.use("/", (req, res) =>
   res.send("<h2> Hello User! Welcome to our journey! :) </h2>")
 );
 
