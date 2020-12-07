@@ -52,6 +52,24 @@ exports.getAllEventPost = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+exports.getSpecificEventPost = (req, res, next) => {
+  const category = req.params.category;
+
+  EventPost.find({ category: category })
+    .then((result) => {
+      if (!result) {
+        const error = new Error("Event doesnt found!");
+        error.errorStatus = 404;
+        throw error;
+      }
+      res.status(200).json({
+        message: "Event category  founded",
+        data: result,
+      });
+    })
+    .catch((err) => next(err));
+};
+
 exports.getEventPostById = (req, res, next) => {
   const postId = req.params.postId;
   EventPost.findById(postId)

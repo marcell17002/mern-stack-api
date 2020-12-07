@@ -19,6 +19,11 @@ router.post(
   eventController.createEventPost
 );
 router.get("/posts", verifyToken, eventController.getAllEventPost);
+router.get(
+  "/posts/:category",
+  verifyToken,
+  eventController.getSpecificEventPost
+);
 router.get("/post/:postId", eventController.getEventPostById);
 router.put(
   "/post/:postId",

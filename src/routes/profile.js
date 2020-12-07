@@ -18,6 +18,11 @@ router.post(
 );
 router.get("/posts", verifyToken, profileController.getAllDataProfile);
 router.get(
+  "/posts/:idPemilik",
+  verifyToken,
+  profileController.getSpecificDataProfile
+);
+router.get(
   "/post/:profileId",
   verifyToken,
   profileController.getDataProfileById

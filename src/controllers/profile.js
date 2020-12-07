@@ -48,6 +48,19 @@ exports.getAllDataProfile = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+exports.getSpecificDataProfile = (req, res, next) => {
+  const idPemilik = req.params.idPemilik;
+
+  ProfilePost.find({ pemilik: { id: idPemilik } })
+    .then((result) => {
+      res.status(200).json({
+        message: "Render data user success",
+        data: result,
+      });
+    })
+    .catch((err) => next(err));
+};
+
 exports.getDataProfileById = (req, res, next) => {
   const profileId = req.params.profileId;
 
