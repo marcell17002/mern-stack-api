@@ -9,6 +9,7 @@ const eventRoutes = require("./src/routes/event");
 const authRoutes = require("./src/routes/auth");
 const profileRoutes = require("./src/routes/profile");
 const chatRoutes = require("./src/routes/chat");
+const PORT = process.env.PORT || 4000;
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -52,9 +53,6 @@ app.use("/v1/auth", authRoutes);
 app.use("/v1/event", eventRoutes);
 app.use("/v1/profile", profileRoutes);
 app.use("/v1/chat", chatRoutes);
-app.use("/", (req, res) =>
-  res.send("<h2> Hello User! Welcome to our journey! :) </h2>")
-);
 
 app.use((error, req, res, next) => {
   const status = error.errorStatus || 500;
@@ -69,6 +67,7 @@ mongoose
     "mongodb+srv://arntonius:Octaviolla27@cluster0.t8xxs.mongodb.net/root?retryWrites=true&w=majority"
   )
   .then(() => {
+    app.get("/", (req, res) => res.send("<h2> Hello World! </h2>"));
     app.listen(PORT, () => console.log(`app listening on port ${PORT}`));
   })
   .catch((err) => console.log(err));
