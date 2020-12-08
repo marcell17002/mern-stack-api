@@ -41,6 +41,23 @@ exports.getAllDataChat = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+exports.getSpecificDataChat = (req, res, next) => {
+  const userId = req.params.userId;
+  Message.find({ chatID: userId })
+    .then((result) => {
+      if (!result) {
+        console.log("id : ", chatId);
+        const error = new Error("Chat History doesnt found!");
+        error.errorStatus = 404;
+        throw error;
+      }
+      res.status(200).json({
+        message: "Chat History founded",
+        data: result,
+      });
+    })
+    .catch((err) => next(err));
+};
 exports.getDataChatById = (req, res, next) => {
   const chatId = req.params.chatId;
   Message.findById(chatId)
