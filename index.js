@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const multer = require("multer");
 const path = require("path");
+const socketio = require("socket.io");
 
 const app = express();
 const eventRoutes = require("./src/routes/event");
@@ -70,6 +71,31 @@ mongoose
     app.get("/", (req, res) =>
       res.send("<h2> Hello User! Lets surf with us! :) </h2>")
     );
-    app.listen(PORT, () => console.log(`app listening on port ${PORT}`));
+
+    const server = app.listen(PORT, () =>
+      console.log(`app listening on port ${PORT}`)
+    );
+    // socket io connection
+    const io = socketio(server);
+    const NEW_CHAT_MESSAGE_EVENT = "newChatMessage";
+
+    io.on("connection", (socket) => {
+      console.log(`Client ${socket.id} connected`);
+
+      // Join a conversation
+      const { roomId } = socket.handshake.query;
+      socket.join(roomId);
+
+      // Listen for new messages
+      socket.on(NEW_CHAT_MESSAGE_EVENT, (data) => {
+        io.in(roomId).emit(NEW_CHAT_MESSAGE_EVENT, data);
+      });
+
+      // Leave the room if the user closes the socket
+      socket.on("disconnect", () => {
+        console.log(`Client ${socket.id} diconnected`);
+        socket.leave(roomId);
+      });
+    });
   })
   .catch((err) => console.log(err));
