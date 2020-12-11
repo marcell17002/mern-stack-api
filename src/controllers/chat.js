@@ -42,8 +42,8 @@ exports.getAllDataChat = (req, res, next) => {
 };
 
 exports.getSpecificDataChat = (req, res, next) => {
-  const userId = req.params.userId;
-  Message.find({ chatID: userId })
+  const chatId = req.params.chatId;
+  Message.find({ chatID: chatId })
     .then((result) => {
       if (!result) {
         console.log("id : ", chatId);
@@ -59,8 +59,8 @@ exports.getSpecificDataChat = (req, res, next) => {
     .catch((err) => next(err));
 };
 exports.getDataChatById = (req, res, next) => {
-  const chatId = req.params.chatId;
-  Message.findById(chatId)
+  const idRootChat = req.params.idRootChat;
+  Message.findById(idRootChat)
     .then((result) => {
       if (!result) {
         console.log("id : ", chatId);
