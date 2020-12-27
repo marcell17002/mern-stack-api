@@ -1,29 +1,28 @@
 const monggose = require("mongoose");
 const Schema = monggose.Schema;
 
-const History = new Schema(
+const Agenda = new Schema(
   {
-    chatId: {
+    title: {
       type: String,
       required: true,
     },
-    idSender: {
+    place: {
+      type: String,
+    },
+    date: {
       type: String,
       required: true,
     },
-    lastChat: {
-      type: String,
-    },
-    lastDate: {
+    idUser: {
       type: String,
       required: true,
     },
-    idReceiver: {
+    containt: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }
 );
 
-module.exports = monggose.model("History", History);
+module.exports = monggose.model("Agenda", Agenda);

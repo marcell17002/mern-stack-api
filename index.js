@@ -10,7 +10,7 @@ const eventRoutes = require("./src/routes/event");
 const authRoutes = require("./src/routes/auth");
 const profileRoutes = require("./src/routes/profile");
 const chatRoutes = require("./src/routes/chat");
-const historyRoutes = require("./src/routes/history");
+const agendaRoutes = require("./src/routes/agenda");
 
 const PORT = process.env.PORT || 4000;
 
@@ -56,7 +56,7 @@ app.use("/v1/auth", authRoutes);
 app.use("/v1/event", eventRoutes);
 app.use("/v1/profile", profileRoutes);
 app.use("/v1/chat", chatRoutes);
-app.use("/v1/chat_history", historyRoutes);
+app.use("/v1/agenda", agendaRoutes);
 
 app.use((error, req, res, next) => {
   const status = error.errorStatus || 500;
@@ -68,7 +68,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb+srv://arntonius:Octaviolla27@cluster0.t8xxs.mongodb.net/root?retryWrites=true&w=majority"
+    "mongodb+srv://fiknetApi:fiknet123@cluster0.zurcf.mongodb.net/root?retryWrites=true&w=majority"
   )
   .then(() => {
     app.get("/", (req, res) =>

@@ -16,33 +16,23 @@ exports.createUser = (req, res, next) => {
     err.data = errors.array();
     throw err;
   }
-  // if (!req.file) {
-  //   const err = new Error("Image belum ter-upload");
-  //   err.errorStatus = 422;
-  //   throw err;
-  // }
-
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
-  const profession = req.body.profession;
-  const number = req.body.number;
-  // const image = req.file.path;
+  const nim = req.body.nim;
   const hashedPassword = bcrypt.hashSync(password, 6);
 
   const AddingUser = new Authentication({
     name: name,
     email: email,
     password: hashedPassword,
-    profession: profession,
-    number: number,
-    // image: image,
+    nim: nim,
   });
 
   AddingUser.save()
     .then((result) => {
       var token = jwt.sign({ id: result._id }, config.secret, {
-        expiresIn: 86400, // expires in 24 hours
+        expiresIn: 86400,
       });
       res
         .status(201)
@@ -92,19 +82,14 @@ exports.updateUser = (req, res, next) => {
     err.data = errors.array();
     throw err;
   }
-  // if (!req.file) {
-  //   const err = new Error("Image doesn't uploaded");
-  //   err.errorStatus = 422;
-  //   throw err;
-  // }
 
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
   const hashedPassword = bcrypt.hashSync(password, 6);
   const image = req.body.image;
-  const profession = req.body.profession;
-  const number = req.body.number;
+  const nim = req.body.nim;
+
   const userId = req.params.userId;
 
   Authentication.findById(userId)
@@ -118,8 +103,7 @@ exports.updateUser = (req, res, next) => {
       post.email = email;
       post.password = hashedPassword;
       post.image = image;
-      post.profession = profession;
-      post.number = number;
+      post.nim = nim;
 
       return post.save();
     })
@@ -144,7 +128,7 @@ exports.deleteUser = (req, res, next) => {
         error.errorStatus = 404;
         throw error;
       }
-      removeImage(post.image);
+      // removeImage(post.image);
       return Authentication.findByIdAndRemove(userId);
     })
     .then((result) => {
